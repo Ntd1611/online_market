@@ -1,0 +1,87 @@
+---
+const { pathname } = Astro.url;
+const navItems = [
+    { href: '/', label: 'Trang Chủ' },
+    { href: '/khuyen-mai', label: 'Khuyến Mãi' },
+    { href: '/cua-hang', label: 'Cửa Hàng' },
+    { href: '/cong-thuc', label: 'Công Thức' },
+];
+
+const isActive = (href: string) => {
+    if (href === '/') {
+        return pathname === href;
+    }
+    return pathname.startsWith(href);
+};
+---
+
+<nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between h-16">
+            <div class="flex-shrink-0 flex items-center">
+                <a href="/" class="flex items-center">
+                    <img class="h-12 w-auto hover:opacity-90 transition-opacity" src="/images/logo.png" alt="Bảo Trâm Mart" />
+                </a>
+            </div>
+            
+            <!-- Desktop menu -->
+            <div class="hidden md:flex md:items-center md:space-x-8">
+                {navItems.map(item => (
+                    <a 
+                        href={item.href} 
+                        class:list={[
+                            "px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200",
+                            isActive(item.href) 
+                                ? "text-green-600 font-bold"
+                                : "text-gray-700 hover:text-green-600"
+                        ]}
+                    >
+                        {item.label}
+                    </a>
+                ))}
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="flex items-center md:hidden">
+                <button 
+                    type="button" 
+                    id="mobile-menu-button" 
+                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200"
+                >
+                    <span class="sr-only">Mở menu</span>
+                    <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="hidden md:hidden" id="mobile-menu">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+            {navItems.map(item => (
+                <a 
+                    href={item.href} 
+                    class:list={[
+                        "block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200",
+                        isActive(item.href)
+                            ? "text-green-600 bg-gray-50 font-bold"
+                            : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+                    ]}
+                >
+                    {item.label}
+                </a>
+            ))}
+        </div>
+    </div>
+</nav>
+
+<script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuButton?.addEventListener('click', () => {
+        mobileMenu?.classList.toggle('hidden');
+    });
+</script>

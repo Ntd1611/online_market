@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Mock data for specials - would come from API in real implementation
+const specials = [
+    { id: 1, name: 'Chả Cá Chesse Fish Tofu', price: '45.000đ', image: '/images/cheesefishtofu.png', originalPrice: '55.000đ' },
+    { id: 2, name: 'Đùi Gà', price: '35.000đ', image: '/images/chicken_leg.jpg', originalPrice: '45.000đ' },
+    { id: 3, name: 'Mì Rau Củ', price: '25.000đ', image: '/images/vege_noodle.png', originalPrice: '30.000đ' },
+    { id: 4, name: 'Bánh Phô Mai', price: '89.000đ', image: '/images/chessecake.png', originalPrice: '99.000đ' },
+    { id: 5, name: 'Kẹo Hồ Lô', price: '15.000đ', image: '/images/keoho.png', originalPrice: '20.000đ' },
+    { id: 6, name: 'Trà Xanh Matcha', price: '55.000đ', image: '/images/matcha.png', originalPrice: '65.000đ' },
+];
+
+const validityPeriod = {
+    start: '11/04/2025',
+    end: '18/04/2025'
+};
+---
+
+<Layout title="Khuyến Mãi - Bảo Trâm Mart" description="Các chương trình khuyến mãi đang diễn ra tại Bảo Trâm Mart">
+    <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                Khuyến Mãi Tuần Này
+            </h1>
+            <p class="mt-4 text-lg text-gray-500">
+                Áp dụng từ {validityPeriod.start} đến {validityPeriod.end}
+            </p>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-8">
+            <div class="relative w-full sm:w-64">
+                <input
+                    type="text"
+                    placeholder="Tìm sản phẩm..."
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 transition-colors duration-200"
+                />
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
+            {specials.map((product) => (
+                <Fragment key={product.id}>
+                    <div class="group relative bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="relative">
+                            <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-t-lg overflow-hidden">
+                                <img
+                                    src={product.image}
+                                    alt={product.name}
+                                    class="w-full h-full object-center object-cover transform group-hover:scale-105 transition-transform duration-300"
+                                />
+                            </div>
+                            <div class="absolute top-0 right-0 bg-red-500 text-white px-3 py-1 rounded-bl-lg text-sm font-bold shadow-md">
+                                -{Math.round(((parseFloat(product.originalPrice.replace('.000đ', '')) - parseFloat(product.price.replace('.000đ', ''))) / parseFloat(product.originalPrice.replace('.000đ', ''))) * 100)}%
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-sm font-medium text-gray-900 group-hover:text-green-600 transition-colors duration-200">
+                                {product.name}
+                            </h3>
+                            <div class="mt-2 flex items-center justify-between">
+                                <span class="text-lg font-bold text-green-600">{product.price}</span>
+                                <span class="text-sm text-gray-500 line-through">{product.originalPrice}</span>
+                            </div>
+                        </div>
+                    </div>
+                </Fragment>
+            ))}
+        </div>
+    </div>
+</Layout>
+
+<script>
+    // Simple search functionality
+    const searchInput = document.querySelector('input[type="text"]');
+    const products = document.querySelectorAll('.group');
+
+    searchInput?.addEventListener('input', (e) => {
+        const searchTerm = (e.target as HTMLInputElement).value.toLowerCase();
+        
+        products.forEach((product) => {
+            const productName = product.querySelector('h3')?.textContent?.toLowerCase() || '';
+            if (productName.includes(searchTerm)) {
+                product.classList.remove('hidden');
+            } else {
+                product.classList.add('hidden');
+            }
+        });
+    });
+</script>

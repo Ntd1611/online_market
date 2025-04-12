@@ -1,11 +1,20 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+    <section class="relative bg-green-50">
+        <div class="max-w-7xl mx-auto px-4 py-16 sm:py-24">
+            <div class="max-w-3xl mx-auto relative">
+                <img src="/images/background.jpg" alt="Bảo Trâm Mart Products" class="w-full rounded-lg shadow-md" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg flex flex-col justify-end p-6 text-white">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-2">BẢO TRÂM Mart</h1>
+                    <p class="text-lg md:text-xl mb-4">SMART CHOICE MAKE BETTER LIFE</p>
+                    <a href="/khuyen-mai" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-200 w-fit">
+                        Xem Khuyến Mãi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 </Layout>
